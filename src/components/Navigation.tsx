@@ -20,7 +20,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDarkMode }) => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-6xl px-4"
+      className="fixed top-6 right-12 z-50"
     >
       <div className={`px-8 py-3 rounded-full backdrop-blur-md ${
         isDarkMode 
