@@ -94,13 +94,13 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode }) => {
                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
                   <i className="fas fa-phone text-lg"></i>
-                  <span>+1 (555) 123-4567</span>
+                  <span>+91 9316271155</span>
                 </div>
                 <div className={`flex items-center space-x-3 ${
                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
                   <i className="fas fa-map-marker-alt text-lg"></i>
-                  <span>New York, NY</span>
+                  <span>India</span>
                 </div>
               </div>
 

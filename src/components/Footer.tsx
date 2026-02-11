@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface FooterProps {
@@ -19,6 +19,21 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
   const openEmail = () => {
     window.open('mailto:hello@lenscraft.photography', '_blank');
   };
+
+  // Add creator credit dynamically to make it non-modifiable
+  useEffect(() => {
+    const encodedName = 'TWloaXIgVmFsYQ==';
+    const creatorText = `Created by ${atob(encodedName)}`;
+    
+    // Find the copyright element and add creator credit after it
+    const copyrightElement = document.querySelector('.footer-copyright');
+    if (copyrightElement && !copyrightElement.nextElementSibling?.classList.contains('creator-credit')) {
+      const creatorElement = document.createElement('p');
+      creatorElement.className = `text-xs mt-2 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'} creator-credit`;
+      creatorElement.textContent = creatorText;
+      copyrightElement.parentNode?.insertBefore(creatorElement, copyrightElement.nextSibling);
+    }
+  }, [isDarkMode]);
 
   const quickLinks = [
     { name: 'Home', href: '#home' },
@@ -53,7 +68,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
             }`}>
               Capturing timeless moments
             </p>
-            <p className={`text-xs ${
+            <p className={`text-xs footer-copyright ${
               isDarkMode ? 'text-gray-500' : 'text-gray-400'
             }`}>
               © 2024 LensCraft. All rights reserved.
@@ -113,7 +128,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
                 isDarkMode ? 'text-gray-400' : 'text-gray-300'
               }`}>
                 <span>📞</span>
-                <span>+1 (555) 123-4567</span>
+                <span>+91 9316271155</span>
               </div>
             </div>
             <div className="flex space-x-3">
