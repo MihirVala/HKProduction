@@ -7,13 +7,13 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
   const openWhatsApp = () => {
-    const phoneNumber = '15551234567';
+    const phoneNumber = '+919316271155';
     const message = encodeURIComponent('Hi, I\'m interested in your photography services');
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };
 
   const openInstagram = () => {
-    window.open('https://instagram.com/lenscraft.studio', '_blank');
+    window.open('https://instagram.com/hk.production19', '_blank');
   };
 
   const openEmail = () => {
