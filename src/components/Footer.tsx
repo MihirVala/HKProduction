@@ -17,7 +17,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
   };
 
   const openEmail = () => {
-    window.open('mailto:hello@lenscraft.photography', '_blank');
+    window.open('mailto:hello@hkproduction.photography', '_blank');
   };
 
   // Add creator credit dynamically to make it non-modifiable
@@ -56,12 +56,10 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
             viewport={{ once: true }}
           >
             <div className="flex items-center space-x-2 mb-4">
-              <div className={`w-6 h-6 border-2 ${
-                isDarkMode ? 'border-white' : 'border-gray-300'
-              } transform rotate-45`}></div>
+              <i className={`fas fa-camera text-lg ${isDarkMode ? 'text-white' : 'text-gray-100'}`}></i>
               <span className={`font-bold text-lg ${
                 isDarkMode ? 'text-white' : 'text-gray-100'
-              }`}>LensCraft</span>
+              }`}>HK Production</span>
             </div>
             <p className={`text-sm mb-4 ${
               isDarkMode ? 'text-gray-400' : 'text-gray-300'
@@ -71,7 +69,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
             <p className={`text-xs footer-copyright ${
               isDarkMode ? 'text-gray-500' : 'text-gray-400'
             }`}>
-              © 2024 LensCraft. All rights reserved.
+              © 2024 HK Production. All rights reserved.
             </p>
           </motion.div>
 
@@ -122,7 +120,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
                 isDarkMode ? 'text-gray-400' : 'text-gray-300'
               }`}>
                 <i className="fas fa-envelope"></i>
-                <span>hello@lenscraft.photography</span>
+                <span>hello@hk.production</span>
               </div>
               <div className={`flex items-center space-x-2 text-sm ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-300'

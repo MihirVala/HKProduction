@@ -30,12 +30,10 @@ const Navigation: React.FC<NavigationProps> = ({ isDarkMode }) => {
         <div className="flex items-center space-x-4 md:space-x-8">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <div className={`w-5 h-5 md:w-6 md:h-6 border-2 ${
-              isDarkMode ? 'border-white' : 'border-gray-800'
-            } transform rotate-45`}></div>
+            <i className={`fas fa-camera text-sm md:text-base ${isDarkMode ? 'text-white' : 'text-gray-800'}`}></i>
             <span className={`font-bold text-xs md:text-sm ${
               isDarkMode ? 'text-white' : 'text-gray-800'
-            }`}>LensCraft</span>
+            }`}>HK Production</span>
           </div>
 
           {/* Menu Items */}

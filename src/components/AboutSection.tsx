@@ -26,7 +26,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ isDarkMode }) => {
           <h2 className={`text-4xl md:text-5xl font-bold mb-4 font-display ${
             isDarkMode ? 'text-white' : 'text-gray-900'
           }`}>
-            About LensCraft
+            About HK Production
           </h2>
           <p className={`text-xl font-medium mb-2 ${
             isDarkMode ? 'text-gray-300' : 'text-gray-700'
@@ -50,7 +50,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ isDarkMode }) => {
               <p className={`text-lg leading-relaxed mb-6 ${
                 isDarkMode ? 'text-gray-300' : 'text-gray-700'
               }`}>
-                At LensCraft, we believe every moment deserves to be captured with artistry and precision. Our team of professional photographers specializes in transforming ordinary moments into extraordinary memories. With over 500 successful projects and countless satisfied clients, we're passionate about delivering photography that exceeds expectations.
+                At HK Production, we believe every moment deserves to be captured with artistry and precision. Our team of professional photographers specializes in transforming ordinary moments into extraordinary memories. With over 500 successful projects and countless satisfied clients, we're passionate about delivering photography that exceeds expectations.
               </p>
               <p className={`text-lg leading-relaxed ${
                 isDarkMode ? 'text-gray-300' : 'text-gray-700'

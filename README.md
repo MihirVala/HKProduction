@@ -1,4 +1,4 @@
-# LensCraft
+# HK Production
 
 An interactive 3D photography portfolio website featuring floating photo cubes in a 3D perspective grid space.
 
@@ -18,7 +18,7 @@ An interactive 3D photography portfolio website featuring floating photo cubes i
 
 ### 🎮 Interactive Elements
 - **Navigation Bar**: Floating translucent bar with logo, menu items, and register button
-- **Hero Section**: Bold "CUBE³ GALLERY" title with superscript "3"
+- **Hero Section**: Bold "HK Production" title with modern typography
 - **Dark/Light Mode Toggle**: Smooth theme switching with bottom-left toggle
 - **Cookie Notice**: Acceptable cookie banner with modern design
 - **Scroll Indicator**: Animated scroll prompt in bottom-right corner
@@ -48,7 +48,7 @@ An interactive 3D photography portfolio website featuring floating photo cubes i
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd cube3-gallery
+cd hk-production
 ```
 
 2. Install dependencies:

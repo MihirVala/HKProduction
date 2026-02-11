@@ -14,16 +14,26 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isDarkMode }) => {
       className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4"
     >
       {/* Main Title */}
-      <motion.h1
-        className={`font-display text-4xl md:text-6xl lg:text-8xl font-bold mb-4 md:mb-6 text-center ${
-          isDarkMode ? 'text-white' : 'text-gray-900'
-        }`}
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.3 }}
-      >
-        LensCraft
-      </motion.h1>
+      <div className={`font-display text-2xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6 text-center ${
+        isDarkMode ? 'text-white' : 'text-gray-900'
+      } flex justify-center items-center flex-wrap`}>
+        {'HK Production'.split('').map((char, index) => (
+          <motion.span
+            key={index}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ 
+              duration: 0.8, 
+              delay: 0.3 + index * 0.1,
+              type: 'spring',
+              stiffness: 200
+            }}
+            className="inline-block"
+          >
+            {char === ' ' ? '\u00A0' : char}
+          </motion.span>
+        ))}
+      </div>
 
       {/* Tagline */}
       <motion.div

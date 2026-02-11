@@ -39,7 +39,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode }) => {
   };
 
   const openEmail = () => {
-    window.open('mailto:hello@lenscraft.photography', '_blank');
+    window.open('mailto:hello@hkproduction.photography', '_blank');
   };
 
   return (
@@ -88,7 +88,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode }) => {
                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
                   <i className="fas fa-envelope text-lg"></i>
-                  <span>hello@lenscraft.photography</span>
+                  <span>hello@hk.production</span>
                 </div>
                 <div className={`flex items-center space-x-3 ${
                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
