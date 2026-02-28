@@ -7,10 +7,8 @@ interface AboutSectionProps {
 
 const AboutSection: React.FC<AboutSectionProps> = ({ isDarkMode }) => {
   const stats = [
-    { number: "500+", label: "Projects Completed" },
-    { number: "300+", label: "Happy Clients" },
-    { number: "50+", label: "Events Covered" },
-    { number: "5", label: "Years of Excellence" }
+    { number: "150+", label: "Projects Completed" },
+    { number: "6", label: "Years of Excellence" }
   ];
 
   return (
@@ -31,7 +29,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ isDarkMode }) => {
           <p className={`text-xl font-medium mb-2 ${
             isDarkMode ? 'text-gray-300' : 'text-gray-700'
           }`}>
-            Crafting Visual Stories Since 2020
+            Crafting Visual Stories Since 2019
           </p>
         </motion.div>
 
@@ -50,7 +48,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ isDarkMode }) => {
               <p className={`text-lg leading-relaxed mb-6 ${
                 isDarkMode ? 'text-gray-300' : 'text-gray-700'
               }`}>
-                At HK Production, we believe every moment deserves to be captured with artistry and precision. Our team of professional photographers specializes in transforming ordinary moments into extraordinary memories. With over 500 successful projects and countless satisfied clients, we're passionate about delivering photography that exceeds expectations.
+                At HK Production, we believe every moment deserves to be captured with artistry and precision. Our team of professional photographers specializes in transforming ordinary moments into extraordinary memories. With over 150 successful projects and countless satisfied clients, we're passionate about delivering photography that exceeds expectations.
               </p>
               <p className={`text-lg leading-relaxed ${
                 isDarkMode ? 'text-gray-300' : 'text-gray-700'

@@ -6,7 +6,7 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ isDarkMode }) => {
-  const navItems = ['Home', 'Gallery', 'Services', 'Pricing', 'About'];
+  const navItems = ['Home', 'Services', 'Pricing', 'About'];
 
   const handleNavClick = (sectionId: string) => {
     const element = document.getElementById(sectionId.toLowerCase().replace(' ', '-'));

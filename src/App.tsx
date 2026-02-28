@@ -47,15 +47,7 @@ function App() {
       
       {/* Content Sections */}
       <div className="relative z-10">
-        <section id="gallery" className="min-h-screen flex items-center justify-center">
-          {/* Gallery section will be enhanced later */}
-          <div className={`text-center ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            <h2 className="text-4xl font-bold mb-4">Gallery</h2>
-            <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
-              Interactive 3D gallery showcase
-            </p>
-          </div>
-        </section>
+        
         
         <ServicesSection isDarkMode={isDarkMode} />
         <PricingSection isDarkMode={isDarkMode} />

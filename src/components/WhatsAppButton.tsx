@@ -7,7 +7,7 @@ interface WhatsAppButtonProps {
 
 const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ isDarkMode }) => {
   const openWhatsApp = () => {
-    const phoneNumber = '+919316271155';
+    const phoneNumber = '+917778979768';
     const message = encodeURIComponent('Hi, I\'m interested in your photography services');
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };

@@ -17,17 +17,88 @@ const PhotoCube: React.FC<{
   const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
   
-  // Sample photography images - using placeholder images with caching
+  // Local photography images - bridal and couple photos
   const textures = useMemo(() => {
     const loader = new THREE.TextureLoader();
-    return [
-      loader.load(`https://picsum.photos/seed/photo${index * 6 + 1}/400/400`),
-      loader.load(`https://picsum.photos/seed/photo${index * 6 + 2}/400/400`),
-      loader.load(`https://picsum.photos/seed/photo${index * 6 + 3}/400/400`),
-      loader.load(`https://picsum.photos/seed/photo${index * 6 + 4}/400/400`),
-      loader.load(`https://picsum.photos/seed/photo${index * 6 + 5}/400/400`),
-      loader.load(`https://picsum.photos/seed/photo${index * 6 + 6}/400/400`),
+    
+    const bridalPhotos = [
+      '/photos/bridal/IMG_1407.JPG.jpeg',
+      '/photos/bridal/IMG_1424.JPG.jpeg',
+      '/photos/bridal/IMG_3007.JPG.jpeg',
+      '/photos/bridal/IMG_3011.JPG.jpeg',
+      '/photos/bridal/IMG_4298.JPG.jpeg',
+      '/photos/bridal/IMG_4344.JPG.jpeg',
+      '/photos/bridal/IMG_4345.JPG.jpeg',
+      '/photos/bridal/IMG_4751.JPG.jpeg',
+      '/photos/bridal/IMG_4803.JPG.jpeg',
+      '/photos/bridal/IMG_4805.JPG.jpeg',
+      '/photos/bridal/IMG_5161.JPG.jpeg',
+      '/photos/bridal/IMG_5162.JPG.jpeg',
     ];
+    
+    const couplePhotos = [
+      '/photos/couplePhotos/IMG_1848.JPG.jpeg',
+      '/photos/couplePhotos/IMG_2172.JPG.jpeg',
+      '/photos/couplePhotos/IMG_4147.JPG.jpeg',
+      '/photos/couplePhotos/IMG_4276.JPG.jpeg',
+      '/photos/couplePhotos/IMG_4288.JPG.jpeg',
+      '/photos/couplePhotos/IMG_4348.JPG.jpeg',
+      '/photos/couplePhotos/IMG_4372.JPG.jpeg',
+      '/photos/couplePhotos/IMG_4376.JPG.jpeg',
+      '/photos/couplePhotos/IMG_4381.JPG.jpeg',
+      '/photos/couplePhotos/IMG_4383.JPG.jpeg',
+      '/photos/couplePhotos/IMG_4791.JPG.jpeg',
+      '/photos/couplePhotos/IMG_5065.JPG.jpeg',
+    ];
+    
+    // First two cubes use bridal photos, next two cubes use couple photos, fifth cube uses remaining images
+    const cubePhotos = [];
+    if (index < 2) {
+      // Cube 0-1: bridal photos (12 photos total)
+      const startIndex = index * 6;
+      for (let i = 0; i < 6; i++) {
+        cubePhotos.push(loader.load(bridalPhotos[startIndex + i]));
+      }
+    } else if (index < 4) {
+      // Cube 2-3: couple photos (12 photos total)
+      const startIndex = (index - 2) * 6;
+      for (let i = 0; i < 6; i++) {
+        cubePhotos.push(loader.load(couplePhotos[startIndex + i]));
+      }
+    } else if (index === 4) {
+      // Cube 4: Use any remaining images (create a mix from both sets without duplicates)
+      const remainingImages = [
+        bridalPhotos[0], // First bridal photo
+        couplePhotos[0], // First couple photo
+        bridalPhotos[6], // Seventh bridal photo
+        couplePhotos[6], // Seventh couple photo
+        bridalPhotos[11], // Last bridal photo
+        couplePhotos[11], // Last couple photo
+      ];
+      for (let i = 0; i < 6; i++) {
+        cubePhotos.push(loader.load(remainingImages[i]));
+      }
+    } else {
+      // Additional cubes get blank textures
+      for (let i = 0; i < 6; i++) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1;
+        canvas.height = 1;
+        const context = canvas.getContext('2d')!;
+        context.fillStyle = '#cccccc';
+        context.fillRect(0, 0, 1, 1);
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        cubePhotos.push(texture);
+      }
+    }
+    
+    return cubePhotos.map((texture) => {
+      if (texture.colorSpace !== undefined) {
+        texture.colorSpace = THREE.SRGBColorSpace;
+      }
+      return texture;
+    });
   }, [index]);
 
   useFrame((state) => {
@@ -43,7 +114,7 @@ const PhotoCube: React.FC<{
       position={position}
       rotation={rotation}
       scale={scale}
-      args={[2, 2, 2]}
+      args={[3, 3, 3]}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
     >
@@ -85,7 +156,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ isDarkMode }) => {
   
   // Generate responsive cube positions based on viewport
   const cubes = useMemo(() => {
-    const cubeCount = viewport.width < 768 ? 3 : 6; // Fewer cubes on mobile
+    const cubeCount = viewport.width < 768 ? 4 : 4; // Show exactly 4 cubes
     return Array.from({ length: cubeCount }, (_, i) => ({
       id: i,
       position: [

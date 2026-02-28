@@ -25,21 +25,56 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    // Handle form submission here
+    
+    // Create message content
+    const messageContent = `Hi, I'm ${formData.fullName} and I'm interested in ${formData.service} photography services.
+
+Message: ${formData.message}
+Email: ${formData.email}
+Phone: ${formData.phone}`;
+
+    // Send based on preferred contact method
+    switch (formData.contactMethod) {
+      case 'WhatsApp':
+        const phoneNumber = '+917778979768';
+        const encodedMessage = encodeURIComponent(messageContent);
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+        break;
+      
+      case 'Email':
+        const emailSubject = encodeURIComponent(`Photography Inquiry - ${formData.service}`);
+        const emailBody = encodeURIComponent(messageContent);
+        window.open(`mailto:patelkuldip379@gmail.com?subject=${emailSubject}&body=${emailBody}`, '_blank');
+        break;
+      
+      case 'Phone':
+        // For phone, show the number in an alert and open WhatsApp as fallback
+        alert(`Please call us at: +91 7778979768\n\nOr we'll connect via WhatsApp with your message.`);
+        const phoneWhatsAppNumber = '+917778979768';
+        const phoneMessage = encodeURIComponent(messageContent);
+        window.open(`https://wa.me/${phoneWhatsAppNumber}?text=${phoneMessage}`, '_blank');
+        break;
+      
+      default:
+        // Default to WhatsApp
+        const defaultNumber = '+917778979768';
+        const defaultMessage = encodeURIComponent(messageContent);
+        window.open(`https://wa.me/${defaultNumber}?text=${defaultMessage}`, '_blank');
+    }
   };
 
   const openWhatsApp = () => {
-    const phoneNumber = '+919316271155';
+    const phoneNumber = '+917778979768';
     const message = encodeURIComponent('Hi, I\'m interested in your photography services');
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };
 
   const openInstagram = () => {
-    window.open('https://instagram.com/hk.production19', '_blank');
+    window.open('https://instagram.com/hk_weddingstudio', '_blank');
   };
 
   const openEmail = () => {
-    window.open('mailto:hello@hkproduction.photography', '_blank');
+    window.open('mailto:patelkuldip379@gmail.com', '_blank');
   };
 
   return (
@@ -88,13 +123,13 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode }) => {
                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
                   <i className="fas fa-envelope text-lg"></i>
-                  <span>hello@hk.production</span>
+                  <span>patelkuldip379@gmail.com</span>
                 </div>
                 <div className={`flex items-center space-x-3 ${
                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
                 }`}>
                   <i className="fas fa-phone text-lg"></i>
-                  <span>+91 9316271155</span>
+                  <span>+91 7778979768</span>
                 </div>
                 <div className={`flex items-center space-x-3 ${
                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
@@ -128,15 +163,6 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode }) => {
                     title="Instagram"
                   >
                     <i className="fab fa-instagram text-lg"></i>
-                  </motion.button>
-                  <motion.button
-                    onClick={openEmail}
-                    className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    title="Email"
-                  >
-                    <i className="fas fa-envelope text-lg"></i>
                   </motion.button>
                 </div>
               </div>
@@ -282,7 +308,6 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode }) => {
                     } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   >
                     <option value="WhatsApp">WhatsApp</option>
-                    <option value="Email">Email</option>
                     <option value="Phone">Phone</option>
                   </select>
                 </div>

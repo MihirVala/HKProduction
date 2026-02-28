@@ -7,17 +7,17 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
   const openWhatsApp = () => {
-    const phoneNumber = '+919316271155';
+    const phoneNumber = '+917778979768';
     const message = encodeURIComponent('Hi, I\'m interested in your photography services');
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };
 
   const openInstagram = () => {
-    window.open('https://instagram.com/hk.production19', '_blank');
+    window.open('https://instagram.com/hk_weddingstudio', '_blank');
   };
 
   const openEmail = () => {
-    window.open('mailto:hello@hkproduction.photography', '_blank');
+    window.open('mailto:patelkuldip379@gmail.com', '_blank');
   };
 
   // Add creator credit dynamically to make it non-modifiable
@@ -37,7 +37,6 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
 
   const quickLinks = [
     { name: 'Home', href: '#home' },
-    { name: 'Gallery', href: '#gallery' },
     { name: 'Services', href: '#services' },
     { name: 'Pricing', href: '#pricing' },
     { name: 'About Us', href: '#about' },
@@ -120,13 +119,13 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
                 isDarkMode ? 'text-gray-400' : 'text-gray-300'
               }`}>
                 <i className="fas fa-envelope"></i>
-                <span>hello@hk.production</span>
+                <span>patelkuldip379@gmail.com</span>
               </div>
               <div className={`flex items-center space-x-2 text-sm ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-300'
               }`}>
                 <span>📞</span>
-                <span>+91 9316271155</span>
+                <span>+91 7778979768</span>
               </div>
             </div>
             <div className="flex space-x-3">
@@ -147,15 +146,6 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
                 title="Instagram"
               >
                 <i className="fab fa-instagram"></i>
-              </motion.button>
-              <motion.button
-                onClick={openEmail}
-                className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                title="Email"
-              >
-                <i className="fas fa-envelope"></i>
               </motion.button>
             </div>
           </motion.div>
