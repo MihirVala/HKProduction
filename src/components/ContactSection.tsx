@@ -73,10 +73,6 @@ Phone: ${formData.phone}`;
     window.open('https://instagram.com/hk_weddingstudio', '_blank');
   };
 
-  const openEmail = () => {
-    window.open('mailto:patelkuldip379@gmail.com', '_blank');
-  };
-
   return (
     <section id="contact" className={`py-20 px-4 ${isDarkMode ? 'bg-dark-bg' : 'bg-gray-100'}`}>
       <div className="max-w-7xl mx-auto">

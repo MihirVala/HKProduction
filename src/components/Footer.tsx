@@ -16,10 +16,6 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
     window.open('https://instagram.com/hk_weddingstudio', '_blank');
   };
 
-  const openEmail = () => {
-    window.open('mailto:patelkuldip379@gmail.com', '_blank');
-  };
-
   // Add creator credit dynamically to make it non-modifiable
   useEffect(() => {
     const encodedName = 'TWloaXIgVmFsYQ==';
