@@ -167,12 +167,27 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
           user-select: none !important;
         }
         .protected-photo {
-          pointer-events: none !important;
           -webkit-user-drag: none !important;
           -khtml-user-drag: none !important;
           -moz-user-drag: none !important;
           -o-user-drag: none !important;
           user-drag: none !important;
+          -webkit-touch-callout: none !important;
+          -webkit-user-select: none !important;
+          -khtml-user-select: none !important;
+          -moz-user-select: none !important;
+          -ms-user-select: none !important;
+          user-select: none !important;
+          -webkit-tap-highlight-color: transparent !important;
+          -webkit-appearance: none !important;
+        }
+        .ios-fix {
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          -webkit-perspective: 1000;
+          perspective: 1000;
         }
       `}</style>
       
@@ -248,7 +263,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-2 sm:p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-2 sm:p-4 ios-fix"
             onClick={closeModal}
           >
             <motion.div
@@ -277,7 +292,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
               </div>
 
               {/* Photo Grid */}
-              <div className="p-3 sm:p-4 overflow-y-auto h-[50vh] sm:h-[60vh] md:max-h-[60vh]">
+              <div className="p-3 sm:p-4 overflow-y-auto h-[50vh] sm:h-[60vh] md:max-h-[60vh] ios-fix">
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
                   {photos.map((photo: string, index: number) => (
                     <motion.div
@@ -286,11 +301,19 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.3, delay: index * 0.02 }}
                       whileHover={{ scale: 1.05 }}
-                      className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group select-none"
+                      className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group select-none ios-fix"
                       onClick={(e) => {
                         e.preventDefault();
                         // Optional: You can add single photo view here if needed
                         console.log(`Photo ${index + 1} clicked:`, photo);
+                      }}
+                      onTouchStart={(e) => {
+                        // iOS touch handling
+                        e.currentTarget.style.transform = 'scale(0.95)';
+                      }}
+                      onTouchEnd={(e) => {
+                        // iOS touch handling
+                        e.currentTarget.style.transform = 'scale(1)';
                       }}
                       onContextMenu={(e) => {
                         e.preventDefault();
