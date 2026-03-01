@@ -184,7 +184,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
     }
   }, [selectedService]);
 
-  // Body scroll lock when modal is open - Fixed for mobile refresh
+  // Body scroll lock when modal is open - Fixed for mobile reload
   useEffect(() => {
     let scrollY = 0;
     
@@ -201,19 +201,19 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
       document.documentElement.style.overflow = 'hidden';
       
       return () => {
-        // Restore body scroll
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.width = '';
-        document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
-        
-        // Restore scroll position safely
-        const targetY = parseInt(scrollY.toString()) || 0;
-        window.scrollTo(0, targetY);
-        document.documentElement.scrollTop = targetY;
-        document.body.scrollTop = targetY;
+        // Restore body scroll with delay
+        setTimeout(() => {
+          document.body.style.position = '';
+          document.body.style.top = '';
+          document.body.style.left = '';
+          document.body.style.width = '';
+          document.body.style.overflow = '';
+          document.documentElement.style.overflow = '';
+          
+          // Restore scroll position safely
+          const targetY = parseInt(scrollY.toString()) || 0;
+          window.scrollTo(0, targetY);
+        }, 100); // Small delay to allow browser to settle
       };
     }
   }, [selectedService]);
