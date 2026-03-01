@@ -7,7 +7,7 @@ interface ServicesSectionProps {
 
 const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
-  const [visibleImages, setVisibleImages] = useState<number>(6); // Load only 6 images initially for mobile
+  const [visibleImages, setVisibleImages] = useState<number>(4); // Load only 4 images initially for mobile
 
   // Memoized photo arrays for better performance
   const bridalPhotos = useMemo(() => [
@@ -140,17 +140,17 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
   const closeModal = () => {
     try {
       setSelectedService(null);
-      setVisibleImages(6); // Reset to 6 images when closing
+      setVisibleImages(4); // Reset to 4 images when closing
     } catch (error) {
       console.error('Error closing modal:', error);
       // Force close
       setSelectedService(null);
-      setVisibleImages(6);
+      setVisibleImages(4);
     }
   };
 
   const loadMoreImages = () => {
-    setVisibleImages(prev => Math.min(prev + 6, photos.length));
+    setVisibleImages(prev => Math.min(prev + 4, photos.length));
   };
 
   // Keyboard navigation for ESC key only
