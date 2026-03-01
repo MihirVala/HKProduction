@@ -24,7 +24,6 @@ const ContactSection: React.FC<ContactSectionProps> = ({ isDarkMode }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
     
     // Create message content
     const messageContent = `Hi, I'm ${formData.fullName} and I'm interested in ${formData.service} photography services.
