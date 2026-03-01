@@ -7,6 +7,7 @@ interface ServicesSectionProps {
 
 const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [visibleImages, setVisibleImages] = useState<number>(12); // Load only 12 images initially
 
   // Memoized photo arrays for better performance
   const bridalPhotos = useMemo(() => [
@@ -139,11 +140,17 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
   const closeModal = () => {
     try {
       setSelectedService(null);
+      setVisibleImages(12); // Reset visible images when closing
     } catch (error) {
       console.error('Error closing modal:', error);
       // Force close
       setSelectedService(null);
+      setVisibleImages(12);
     }
+  };
+
+  const loadMoreImages = () => {
+    setVisibleImages(prev => Math.min(prev + 12, photos.length));
   };
 
   // Keyboard navigation for ESC key only
@@ -159,27 +166,20 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // iOS body scroll lock when modal is open - Fixed version
+  // Global context menu blocker when modal is open
   useEffect(() => {
-    let scrollY = 0;
-    
+    const handleContextMenu = (e: MouseEvent) => {
+      if (selectedService) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    };
+
     if (selectedService) {
-      // Store current scroll position
-      scrollY = window.scrollY;
-      
-      // Prevent body scroll on iOS
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
-      document.body.style.overflow = 'hidden';
-      
+      document.addEventListener('contextmenu', handleContextMenu, true);
       return () => {
-        // Restore body scroll
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.width = '';
-        document.body.style.overflow = '';
-        window.scrollTo(0, scrollY);
+        document.removeEventListener('contextmenu', handleContextMenu, true);
       };
     }
   }, [selectedService]);
@@ -187,54 +187,33 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
   return (
     <>
       <style>{`
-        .no-select {
+        .no-download {
           -webkit-user-select: none !important;
           -moz-user-select: none !important;
           -ms-user-select: none !important;
           user-select: none !important;
           -webkit-touch-callout: none !important;
           -webkit-tap-highlight-color: transparent !important;
+          pointer-events: none !important;
         }
-        .no-context-menu {
-          -webkit-touch-callout: none !important;
-          -webkit-user-select: none !important;
-          -khtml-user-select: none !important;
-          -moz-user-select: none !important;
-          -ms-user-select: none !important;
-          user-select: none !important;
-        }
-        .protected-photo {
+        .protected-image {
           -webkit-user-drag: none !important;
           -khtml-user-drag: none !important;
           -moz-user-drag: none !important;
           -o-user-drag: none !important;
           user-drag: none !important;
-          -webkit-touch-callout: none !important;
+        }
+        .photo-container {
+          pointer-events: none !important;
           -webkit-user-select: none !important;
-          -khtml-user-select: none !important;
           -moz-user-select: none !important;
           -ms-user-select: none !important;
           user-select: none !important;
-          -webkit-tap-highlight-color: transparent !important;
-          -webkit-appearance: none !important;
-        }
-        .ios-fix {
-          -webkit-transform: translateZ(0);
-          transform: translateZ(0);
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-        }
-        .ios-modal-fix {
-          -webkit-transform: translateZ(0);
-          transform: translateZ(0);
-        }
-        .ios-scroll-fix {
-          -webkit-overflow-scrolling: touch;
-          overflow-scrolling: touch;
+          -webkit-touch-callout: none !important;
         }
       `}</style>
       
-      <section id="services" className={`min-h-screen py-20 px-4 ${isDarkMode ? 'bg-dark-bg' : 'bg-gray-100'} no-select no-context-menu`}>
+      <section id="services" className={`min-h-screen py-20 px-4 ${isDarkMode ? 'bg-dark-bg' : 'bg-gray-100'}`}>
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -269,11 +248,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
                   isDarkMode 
                     ? 'bg-gray-900/50 border-gray-800 hover:bg-gray-800/70' 
                     : 'bg-white/70 border-gray-200 hover:bg-white/90'
-                } transition-all duration-300 cursor-pointer ${
-                  (service.title === "Bridal Photography" || service.title === "Couple Photography") 
-                    ? 'ring-2 ring-blue-500 ring-opacity-50' 
-                    : ''
-                }`}
+                } transition-all duration-300 cursor-pointer`}
               >
                 <div className="text-4xl mb-4">{service.icon}</div>
                 <h3 className={`text-xl font-bold mb-3 ${
@@ -306,7 +281,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-2 sm:p-4 ios-fix ios-modal-fix"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-2 sm:p-4"
             onClick={closeModal}
           >
             <motion.div
@@ -335,28 +310,19 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
               </div>
 
               {/* Photo Grid */}
-              <div className="p-3 sm:p-4 overflow-y-auto h-[50vh] sm:h-[60vh] md:max-h-[60vh] ios-fix ios-scroll-fix">
+              <div className="p-3 sm:p-4 overflow-y-auto h-[50vh] sm:h-[60vh] md:max-h-[60vh]">
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
-                  {photos.map((photo: string, index: number) => (
+                  {photos.slice(0, visibleImages).map((photo: string, index: number) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.3, delay: index * 0.02 }}
                       whileHover={{ scale: 1.05 }}
-                      className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group select-none ios-fix"
+                      className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group photo-container"
                       onClick={(e) => {
-                        e.preventDefault();
                         // Optional: You can add single photo view here if needed
                         console.log(`Photo ${index + 1} clicked:`, photo);
-                      }}
-                      onTouchStart={(e) => {
-                        // iOS touch handling
-                        e.currentTarget.style.transform = 'scale(0.95)';
-                      }}
-                      onTouchEnd={(e) => {
-                        // iOS touch handling
-                        e.currentTarget.style.transform = 'scale(1)';
                       }}
                       onContextMenu={(e) => {
                         e.preventDefault();
@@ -372,34 +338,44 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
                       <img
                         src={photo}
                         alt={`${selectedService} ${index + 1}`}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 pointer-events-none select-none protected-photo"
-                        draggable={false}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 protected-image"
                         loading="lazy"
                         decoding="async"
-                        onContextMenu={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          return false;
-                        }}
-                        onDragStart={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          return false;
-                        }}
+                        draggable={false}
                       />
-                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center">
                         <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
                           <div className="text-lg font-bold">#{index + 1}</div>
                         </div>
                       </div>
                       
                       {/* Watermark overlay */}
-                      <div className="absolute top-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded pointer-events-none select-none">
+                      <div className="absolute top-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
                         HK Production
                       </div>
                     </motion.div>
                   ))}
                 </div>
+                
+                {/* Load More Button */}
+                {visibleImages < photos.length && (
+                  <div className="flex justify-center mt-6">
+                    <motion.button
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      onClick={loadMoreImages}
+                      className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                        isDarkMode 
+                          ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                          : 'bg-blue-500 hover:bg-blue-600 text-white'
+                      }`}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Load More Photos ({photos.length - visibleImages} remaining)
+                    </motion.button>
+                  </div>
+                )}
               </div>
 
               {/* Footer */}
