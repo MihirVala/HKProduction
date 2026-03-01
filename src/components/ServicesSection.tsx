@@ -243,14 +243,14 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-2 sm:p-4"
             onClick={closeModal}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="relative max-w-7xl w-full max-h-[90vh] bg-black rounded-lg overflow-hidden"
+              className="relative max-w-7xl w-full h-[80vh] sm:h-[85vh] md:max-h-[90vh] bg-black rounded-lg overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
@@ -272,8 +272,8 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
               </div>
 
               {/* Photo Grid */}
-              <div className="p-6 overflow-y-auto max-h-[70vh]">
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              <div className="p-3 sm:p-4 overflow-y-auto h-[50vh] sm:h-[60vh] md:max-h-[60vh]">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
                   {getCurrentPhotos().map((photo, index) => (
                     <motion.div
                       key={index}
