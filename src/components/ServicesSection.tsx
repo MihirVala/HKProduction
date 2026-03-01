@@ -114,7 +114,13 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
   ];
 
   const handleServiceClick = (serviceTitle: string) => {
-    if (serviceTitle === "Bridal Photography" || serviceTitle === "Couple Photography") {
+    try {
+      if (serviceTitle === "Bridal Photography" || serviceTitle === "Couple Photography") {
+        setSelectedService(serviceTitle);
+      }
+    } catch (error) {
+      console.error('Error opening gallery:', error);
+      // Fallback: try to open without animation
       setSelectedService(serviceTitle);
     }
   };
@@ -131,7 +137,13 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
   const photos = getCurrentPhotos();
 
   const closeModal = () => {
-    setSelectedService(null);
+    try {
+      setSelectedService(null);
+    } catch (error) {
+      console.error('Error closing modal:', error);
+      // Force close
+      setSelectedService(null);
+    }
   };
 
   // Keyboard navigation for ESC key only
@@ -146,6 +158,31 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  // iOS body scroll lock when modal is open - Fixed version
+  useEffect(() => {
+    let scrollY = 0;
+    
+    if (selectedService) {
+      // Store current scroll position
+      scrollY = window.scrollY;
+      
+      // Prevent body scroll on iOS
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+      
+      return () => {
+        // Restore body scroll
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [selectedService]);
 
   return (
     <>
@@ -186,8 +223,14 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
           transform: translateZ(0);
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-          -webkit-perspective: 1000;
-          perspective: 1000;
+        }
+        .ios-modal-fix {
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+        }
+        .ios-scroll-fix {
+          -webkit-overflow-scrolling: touch;
+          overflow-scrolling: touch;
         }
       `}</style>
       
@@ -263,7 +306,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-2 sm:p-4 ios-fix"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-2 sm:p-4 ios-fix ios-modal-fix"
             onClick={closeModal}
           >
             <motion.div
@@ -292,7 +335,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
               </div>
 
               {/* Photo Grid */}
-              <div className="p-3 sm:p-4 overflow-y-auto h-[50vh] sm:h-[60vh] md:max-h-[60vh] ios-fix">
+              <div className="p-3 sm:p-4 overflow-y-auto h-[50vh] sm:h-[60vh] md:max-h-[60vh] ios-fix ios-scroll-fix">
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
                   {photos.map((photo: string, index: number) => (
                     <motion.div
