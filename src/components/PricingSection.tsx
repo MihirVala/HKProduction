@@ -6,44 +6,55 @@ interface PricingSectionProps {
 }
 
 const PricingSection: React.FC<PricingSectionProps> = ({ isDarkMode }) => {
-  const pricingTiers = [
+  const packages = [
     {
-      name: "BASIC PACKAGE",
-      price: "$299",
+      name: "SILVER PACKAGE",
+      duration: "2 days",
+      price: "₹ 65,000",
+      color: "from-gray-600 to-gray-800",
       features: [
-        "2-hour photo session",
-        "50 edited high-resolution photos",
-        "Online gallery for 30 days",
-        "Personal use license",
-        "Perfect for: Portraits, Headshots"
+        "Traditional Photography",
+        "Traditional Videography", 
+        "Album 30 Pages (250 Photos)",
+        "2.3 Hour Video"
       ],
       highlighted: false
     },
     {
-      name: "PROFESSIONAL PACKAGE",
-      price: "$599",
+      name: "GOLD PACKAGE", 
+      duration: "2 days",
+      price: "₹ 1,25,000",
+      color: "from-yellow-600 to-amber-700",
       features: [
-        "4-hour photo session",
-        "150 edited high-resolution photos",
-        "Online gallery for 90 days",
-        "Commercial use license",
-        "1 round of revisions",
-        "Perfect for: Events, Products, Small weddings"
+        "Traditional Photography",
+        "Traditional Videography",
+        "Candid Photography",
+        "Cinematic Videography",
+        "Album 30 Pages (300 Photos)",
+        "2.3 Hour Video",
+        "Highlight + Teaser + 2 Reel",
+        "Drone Shoot"
       ],
       highlighted: true
     },
     {
-      name: "PREMIUM PACKAGE",
-      price: "$1,299",
+      name: "DIAMOND PACKAGE",
+      duration: "2 days", 
+      price: "₹ 1,85,000",
+      color: "from-purple-600 to-purple-800",
       features: [
-        "Full-day coverage (8 hours)",
-        "300+ edited high-resolution photos",
-        "Unlimited online gallery access",
-        "Full commercial license",
-        "2 rounds of revisions",
-        "Same-day sneak peeks",
-        "Printed photo album (20 pages)",
-        "Perfect for: Weddings, Corporate events, Campaigns"
+        "Traditional Photography",
+        "Traditional Videography",
+        "Candid Photography",
+        "Cinematic Videography",
+        "Crowd Capture Photography",
+        "Drone Shoot",
+        "2 Album 30 Pages (300 Photos)",
+        "2 to 3 Hour Video in 64GB Pendrive",
+        "Highlight + Teaser + 2 Reel",
+        "Pre Wedding Shoot",
+        "Cinematic Clip 1.5 to 2 minutes",
+        "10 Day Edit Photos"
       ],
       highlighted: false
     }
@@ -72,74 +83,77 @@ const PricingSection: React.FC<PricingSectionProps> = ({ isDarkMode }) => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {pricingTiers.map((tier, index) => (
+          {packages.map((pkg, index) => (
             <motion.div
-              key={tier.name}
+              key={pkg.name}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -10 }}
               className={`relative p-8 rounded-2xl backdrop-blur-md border flex flex-col h-full ${
-                tier.highlighted
+                pkg.highlighted
                   ? isDarkMode 
-                    ? 'bg-blue-900/30 border-blue-500 ring-2 ring-blue-500/50' 
-                    : 'bg-blue-50 border-blue-500 ring-2 ring-blue-500/30'
+                    ? 'bg-yellow-900/30 border-yellow-500 ring-2 ring-yellow-500/50' 
+                    : 'bg-yellow-50 border-yellow-500 ring-2 ring-yellow-500/30'
                   : isDarkMode 
                     ? 'bg-gray-900/50 border-gray-800 hover:bg-gray-800/70' 
                     : 'bg-white/70 border-gray-200 hover:bg-white/90'
               } transition-all duration-300`}
             >
-              {tier.highlighted && (
+              {pkg.highlighted && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <span className={`px-4 py-1 rounded-full text-sm font-bold ${
-                    isDarkMode ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'
+                    isDarkMode ? 'bg-yellow-600 text-white' : 'bg-yellow-500 text-white'
                   }`}>
-                    Most Popular
+                    MOST POPULAR
                   </span>
                 </div>
               )}
               
-              <div className="text-center mb-8">
-                <h3 className={`text-xl font-bold mb-2 ${
-                  isDarkMode ? 'text-white' : 'text-gray-900'
-                }`}>
-                  {tier.name}
-                </h3>
-                <div className={`text-4xl font-bold mb-4 ${
-                  isDarkMode ? 'text-white' : 'text-gray-900'
-                }`}>
-                  {tier.price}
-                </div>
+              {/* Package Header with Gradient */}
+              <div className={`bg-gradient-to-br ${pkg.color} p-6 text-white text-center rounded-t-lg -m-8 mb-4`}>
+                <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
+                <div className="text-sm opacity-90 mb-2">{pkg.duration}</div>
+                <div className="text-3xl font-bold">{pkg.price}</div>
               </div>
 
-              <ul className="space-y-3 mb-8">
-                {tier.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-start">
-                    <span className={`mr-2 mt-1 ${
-                      isDarkMode ? 'text-green-400' : 'text-green-600'
-                    }`}>✓</span>
-                    <span className={`text-sm ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      {feature}
-                    </span>
+              <ul className="space-y-3 mb-8 flex-grow">
+                {pkg.features.map((feature, featureIndex) => (
+                  <li key={featureIndex} className={`flex items-start ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    <svg 
+                      className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" 
+                      fill="currentColor" 
+                      viewBox="0 0 20 20"
+                    >
+                      <path 
+                        fillRule="evenodd" 
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
+                        clipRule="evenodd" 
+                      />
+                    </svg>
+                    <span className="text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
 
               <motion.button
                 className={`w-full py-3 rounded-lg font-medium transition-colors duration-300 mt-auto ${
-                  tier.highlighted
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
+                  pkg.highlighted
+                    ? 'bg-yellow-500 hover:bg-yellow-600 text-white'
                     : isDarkMode
-                      ? 'bg-white text-gray-900 hover:bg-gray-100'
-                      : 'bg-gray-900 text-white hover:bg-gray-800'
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                      : 'bg-blue-600 hover:bg-blue-700 text-white'
                 }`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  window.open('https://wa.me/917778979768?text=Hi!%20I%20am%20interested%20in%20the%20' + encodeURIComponent(pkg.name), '_blank');
+                }}
               >
-                Get Started
+                Book This Package
               </motion.button>
             </motion.div>
           ))}
