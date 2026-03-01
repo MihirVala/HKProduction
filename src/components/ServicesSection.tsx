@@ -7,7 +7,6 @@ interface ServicesSectionProps {
 
 const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Photo arrays for each service - ALL PHOTOS (SECURE PATH)
   const bridalPhotos = [
@@ -114,41 +113,9 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
     }
   ];
 
-  // Keyboard navigation effect
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!selectedService) return;
-      
-      switch (event.key) {
-        case 'ArrowLeft':
-          event.preventDefault();
-          setCurrentImageIndex((prev) => {
-            const photos = getCurrentPhotos();
-            return (prev - 1 + photos.length) % photos.length;
-          });
-          break;
-        case 'ArrowRight':
-          event.preventDefault();
-          setCurrentImageIndex((prev) => {
-            const photos = getCurrentPhotos();
-            return (prev + 1) % photos.length;
-          });
-          break;
-        case 'Escape':
-          event.preventDefault();
-          closeModal();
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedService]);
-
   const handleServiceClick = (serviceTitle: string) => {
     if (serviceTitle === "Bridal Photography" || serviceTitle === "Couple Photography") {
       setSelectedService(serviceTitle);
-      setCurrentImageIndex(0);
     }
   };
 
@@ -160,18 +127,20 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
 
   const closeModal = () => {
     setSelectedService(null);
-    setCurrentImageIndex(0);
   };
 
-  const nextImage = () => {
-    const photos = getCurrentPhotos();
-    setCurrentImageIndex((prev) => (prev + 1) % photos.length);
-  };
+  // Keyboard navigation for ESC key only
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeModal();
+      }
+    };
 
-  const prevImage = () => {
-    const photos = getCurrentPhotos();
-    setCurrentImageIndex((prev) => (prev - 1 + photos.length) % photos.length);
-  };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
     <>
