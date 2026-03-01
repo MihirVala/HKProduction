@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface ServicesSectionProps {
@@ -8,8 +8,8 @@ interface ServicesSectionProps {
 const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
 
-  // Photo arrays for each service - ALL PHOTOS (SECURE PATH)
-  const bridalPhotos = [
+  // Memoized photo arrays for better performance
+  const bridalPhotos = useMemo(() => [
     '/protected-photos/bridal/IMG_0889.JPG.jpeg',
     '/protected-photos/bridal/IMG_1407.JPG.jpeg',
     '/protected-photos/bridal/IMG_1420.JPG.jpeg',
@@ -52,9 +52,9 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
     '/protected-photos/bridal/IMG_5164.JPG.jpeg',
     '/protected-photos/bridal/IMG_5167.JPG.jpeg',
     '/protected-photos/bridal/IMG_5168.JPG.jpeg',
-  ];
+  ], []);
 
-  const couplePhotos = [
+  const couplePhotos = useMemo(() => [
     '/protected-photos/couplePhotos/IMG_0879.JPG.jpeg',
     '/protected-photos/couplePhotos/IMG_0885.JPG.jpeg',
     '/protected-photos/couplePhotos/IMG_1848.JPG.jpeg',
@@ -93,7 +93,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
     '/protected-photos/couplePhotos/IMG_4990.JPG.jpeg',
     '/protected-photos/couplePhotos/IMG_5065.JPG.jpeg',
     '/protected-photos/couplePhotos/IMG_5066.JPG.jpeg',
-  ];
+  ], []);
 
   const services = [
     {
@@ -119,11 +119,16 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
     }
   };
 
-  const getCurrentPhotos = () => {
-    if (selectedService === "Bridal Photography") return bridalPhotos;
-    if (selectedService === "Couple Photography") return couplePhotos;
-    return [];
-  };
+  // Memoized getCurrentPhotos function for performance
+  const getCurrentPhotos = useMemo(() => {
+    return () => {
+      if (selectedService === "Bridal Photography") return bridalPhotos;
+      if (selectedService === "Couple Photography") return couplePhotos;
+      return [];
+    };
+  }, [selectedService, bridalPhotos, couplePhotos]);
+
+  const photos = getCurrentPhotos();
 
   const closeModal = () => {
     setSelectedService(null);
@@ -256,7 +261,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-gray-700">
                 <h3 className={`text-xl font-bold text-white`}>
-                  {selectedService} Gallery ({getCurrentPhotos().length} photos)
+                  {selectedService} Gallery ({photos.length} photos)
                 </h3>
                 <div className="flex items-center space-x-4">
                   <div className="text-xs text-gray-400">
@@ -274,7 +279,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
               {/* Photo Grid */}
               <div className="p-3 sm:p-4 overflow-y-auto h-[50vh] sm:h-[60vh] md:max-h-[60vh]">
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
-                  {getCurrentPhotos().map((photo, index) => (
+                  {photos.map((photo: string, index: number) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, scale: 0.8 }}
@@ -303,6 +308,8 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
                         alt={`${selectedService} ${index + 1}`}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 pointer-events-none select-none protected-photo"
                         draggable={false}
+                        loading="lazy"
+                        decoding="async"
                         onContextMenu={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -332,7 +339,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
               {/* Footer */}
               <div className="p-4 border-t border-gray-700 text-center">
                 <p className="text-gray-400 text-sm">
-                  Total: {getCurrentPhotos().length} {selectedService.toLowerCase()} photos
+                  Total: {photos.length} {selectedService.toLowerCase()} photos
                 </p>
               </div>
             </motion.div>
