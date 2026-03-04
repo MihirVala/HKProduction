@@ -21,6 +21,18 @@ function App() {
     return savedTheme ? savedTheme === 'dark' : true;
   });
 
+  // Mobile detection - disable 3D scene on mobile for performance
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Save theme to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');

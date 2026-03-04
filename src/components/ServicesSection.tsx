@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import OptimizedImage from './OptimizedImage';
 
 interface ServicesSectionProps {
   isDarkMode: boolean;
@@ -7,7 +8,7 @@ interface ServicesSectionProps {
 
 const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
-  const [visibleImages, setVisibleImages] = useState<number>(4); // Load only 4 images initially for mobile
+  const [visibleImages, setVisibleImages] = useState<number>(6); // Load only 6 images initially for mobile
 
   // Memoized photo arrays for better performance
   const bridalPhotos = useMemo(() => [
@@ -355,15 +356,13 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
                   {photos.slice(0, visibleImages).map((photo: string, index: number) => (
                     <motion.div
-                      key={index}
+                      key={photo} // Use photo URL as key for better React performance
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3, delay: index * 0.02 }}
-                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.3, delay: Math.min(index * 0.02, 0.1) }} // Cap delay for better UX
+                      whileHover={{ scale: 1.02 }}
                       className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group photo-container"
-                      onClick={(e) => {
-                        // Optional: You can add single photo view here if needed
-                      }}
+                      style={{ willChange: 'transform' }} // GPU acceleration
                       onContextMenu={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -375,22 +374,19 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
                         return false;
                       }}
                     >
-                      <img
+                      <OptimizedImage
                         src={photo}
                         alt={`${selectedService} ${index + 1}`}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 protected-image"
-                        loading="lazy"
-                        decoding="async"
-                        draggable={false}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 protected-image"
                       />
-                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
                         <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
                           <div className="text-lg font-bold">#{index + 1}</div>
                         </div>
                       </div>
                       
                       {/* Watermark overlay */}
-                      <div className="absolute top-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+                      <div className="absolute top-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded pointer-events-none">
                         HK Production
                       </div>
                     </motion.div>

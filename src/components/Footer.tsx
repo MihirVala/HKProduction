@@ -64,7 +64,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
             <p className={`text-xs footer-copyright ${
               isDarkMode ? 'text-gray-500' : 'text-gray-400'
             }`}>
-              © 2024 HK Production. All rights reserved.
+              © 2026 HK Production. All rights reserved.
             </p>
           </motion.div>
 
