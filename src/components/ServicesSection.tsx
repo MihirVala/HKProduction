@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import OptimizedImage from './OptimizedImage';
 
@@ -8,7 +8,7 @@ interface ServicesSectionProps {
 
 const ServicesSection: React.FC<ServicesSectionProps> = ({ isDarkMode }) => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
-  const [visibleImages, setVisibleImages] = useState<number>(6); // Load only 6 images initially for mobile
+  const [visibleImages, setVisibleImages] = useState<number>(4);
 
   // Memoized photo arrays for better performance
   const bridalPhotos = useMemo(() => [

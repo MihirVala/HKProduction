@@ -59,13 +59,6 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
     onError?.();
   };
 
-  // Generate srcset for responsive images
-  const generateSrcSet = (url: string) => {
-    // For photography websites, we want quality
-    // But we'll use different sizes for mobile optimization
-    return undefined; // Using full quality for now
-  };
-
   return (
     <div 
       ref={imgRef}
