@@ -165,7 +165,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({ isDarkMode }) => {
   
   // Generate responsive cube positions based on viewport
   const cubes = useMemo(() => {
-    const cubeCount = viewport.width < 768 ? 4 : 4; // Show exactly 4 cubes
+    const cubeCount = viewport.width < 768 ? 2 : 4; // 2 cubes on mobile, 4 on desktop
     return Array.from({ length: cubeCount }, (_, i) => ({
       id: i,
       position: [
